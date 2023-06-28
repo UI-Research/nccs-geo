@@ -4,6 +4,8 @@ This repository houses the code to create geographic crosswalks between various 
 
 To replicate the code, run R scripts in numerical order.
 
+The data for this work currently lives on Box. Email cdavis@urban.org for access.
+
 There are two crosswalk types included; one at the census block level and one at the census tract level. 
 
 - Census Tract Crosswalk
