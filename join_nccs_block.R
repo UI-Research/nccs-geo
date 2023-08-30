@@ -31,7 +31,7 @@ nccs_data <- read_csv("bmf-test.csv")
 
 
 nccs_data_sf <- st_as_sf(nccs_data, coords = c("Longitude", "Latitude"), crs = 4326) %>% 
-  st_transform("EPSG:2163")
+  st_transform("EPSG:4269")
 
 # joins nccs data to block data by state
 join_nccs <- function(my_state){
@@ -43,9 +43,7 @@ join_nccs <- function(my_state){
   
   nccs_state <- filter(nccs_data_sf, STATE == state_abbv)
   
-  state_block <- st_read(str_c(path, "block_", my_state, ".geojson")) %>% 
-    st_transform("EPSG:2163")
-  
+  state_block <- st_read(str_c(path, "block_", my_state, ".geojson"))
   data_out<- st_join(nccs_state, state_block) %>% 
     st_drop_geometry()
   
