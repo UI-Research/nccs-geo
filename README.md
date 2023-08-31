@@ -8,6 +8,8 @@ The data for this work currently lives on Box. Email cdavis@urban.org for access
 
 There are two crosswalk types included; one at the census block level and one at the census tract level. 
 
+-----
+
 ### TRACTX: Census Tract Crosswalk [ 74,091 tracts/rows, 15 MB ]
 
   - Public Use Microdata Areas (PUMAs)
@@ -19,6 +21,21 @@ There are two crosswalk types included; one at the census block level and one at
   - American Communities Cultural Regions
   - Census Regions
   - Census Divisions
+
+-----
+
+### BLOCKX: Census Block Crosswalk [ 11,078,297 blocks/rows, 636 MB ]
+
+  - Census Places
+  - Urban/Rural Areas (Census)
+  - Urvan/Rural Areas (NCES Locales)
+  - Voting Districts
+  - ZCTAs (zip code equivalents)
+
+-----
+
+
+## Use
 
 ```r
 x <- "https://nccsdata.s3.us-east-1.amazonaws.com/geo/xwalk/TRACTX.csv"
@@ -69,14 +86,6 @@ d[,10:13] %>% as.data.frame() %>% head() %>% knitr::kable( align="c" )
 |      DEEP SOUTH       | Working Class Country  |       South        |   East South Central   |
 |      DEEP SOUTH       | Working Class Country  |       South        |   East South Central   |
 
-
-BLOCKX: Census Block Crosswalk [ 11,078,297 blocks/rows, 636 MB ]
-
-  - Census Places
-  - Urban/Rural Areas (Census)
-  - Urvan/Rural Areas (NCES Locales)
-  - Voting Districts
-  - ZCTAs (zip code equivalents)
 
 ```r
 url <- "https://nccsdata.s3.us-east-1.amazonaws.com/geo/xwalk/BLOCKX.csv"
