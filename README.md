@@ -8,6 +8,8 @@ The data for this work currently lives on Box. Email cdavis@urban.org for access
 
 There are two crosswalk types included; one at the census block level and one at the census tract level. 
 
+The crosswalks are one component of the [**R geocrosswalk package**](https://github.com/UrbanInstitute/geocrosswalk). 
+
 -----
 
 ### TRACTX: Census Tract Crosswalk [ 74,091 tracts/rows, 15 MB ]
