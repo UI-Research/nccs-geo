@@ -6,6 +6,12 @@ library(readxl)
 library(tigris)
 library(janitor)
 
+
+#######
+#######   TRACTS
+#######
+
+
 # reads in data from MABLE geocorr crosswalks
 read_geocorr <- function(xwalk_path){
 	xwalk_names <-  xwalk_path %>% 
@@ -92,10 +98,40 @@ tract_crosswalk <- tract_to_puma %>%
 	left_join(cultural, by = "county") %>% 
 	left_join(state_to_census_region, by = c("state_name" = "state")) 
 
+new.order <- 
+c("tract", 
+"county", 
+"puma", 
+"state_code", 
+"state_name", 
+"cbsa10", 
+"cbsaname10", 
+"csa10", 
+"csaname10", 
+"woodard_nation_name", 
+"cultural_regions", 
+"region", 
+"division")
 
-  saveRDS(tract_crosswalk, "final/tract_crosswalk.RDS")
+tract_crosswalk <- tract_crosswalk[new.order]
+
+new.names <- 
+c("tract.census.geoid", "county.census.geoid", "puma.census.geoid", 
+"state.census.geoid", "state.census.name", "metro.census.cbsa10.geoid", 
+"metro.census.cbsa10.name", "metro.census.csa10.geoid", "metro.census.csa10.name", 
+"region.woodard.nation", "region.woodard.culture", "region.census.main", 
+"region.census.division")
+
+names(tract_crosswalk) <- new.names
+
+saveRDS( tract_crosswalk, "final/TRACTX.RDS" )
 
 
+
+
+#######
+#######   BLOCKS
+#######
 
 
 # get file paths for block to x filepaths (4 in each) 
@@ -192,5 +228,30 @@ left_join(block_ua_1, by = "block_geoid") %>%
 	mutate(tract_geoid = str_sub(block_geoid, 1, 11))
 
 
+
+new.order <- 
+c("block_geoid", 
+"tract_geoid", 
+"zcta_geoid",
+"place_geoid",
+"county_geoid",  
+"vtd_geoid",
+"ua_geoid",   
+"locale")
+
+full_block <- full_block[new.order]
+
+new.names <- 
+c("block.census.geoid",
+"tract.census.geoid",
+"zcta.census.geoid",
+"place.census.geoid",
+"county.census.geoid",
+"vtd.census.geoid",
+"urbanrural.census.geoid",
+"urbanrural.nces.geoid")
+
+names(full_block) <- new.names
+
 # write out block crosswalk
-saveRDS(full_block, "final/block_crosswalk.RDS")
+saveRDS(full_block, "final/BLOCKX.RDS")
