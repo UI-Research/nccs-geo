@@ -27,8 +27,8 @@ state_xwalk <- fips_codes %>%
   distinct()
 
 # read in nccs data
-nccs_data <- read_csv("bmf-test.csv")
-
+# nccs_data <- read_csv("tinybmf.csv")
+nccs_data <- read_csv("https://raw.githubusercontent.com/UI-Research/nccs-geo/main/tinybmf.csv")
 
 nccs_data_sf <- st_as_sf(nccs_data, coords = c("Longitude", "Latitude"), crs = 4326) %>% 
   st_transform("EPSG:4269")
