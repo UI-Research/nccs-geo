@@ -17,7 +17,7 @@ download_block <- FALSE
 # get 51 unique state fips codes (including dc)
 
 unique_states <- fips_codes %>% 
-  filter(state_code < 60) %>%
+  filter(state_code != 74) %>%
   pull(state_code) %>% 
   unique()
 
@@ -26,8 +26,8 @@ unique_states <- fips_codes %>%
 if(download_block){
 
 # if shapefiles directory doesn't exist, create it
-if(!dir.exists("shapefiles")){
-  dir.create("shapefiles")
+if(!dir.exists(path)){
+  dir.create(path)
 }
 
 # download block shapefiles by state
@@ -62,7 +62,7 @@ state_xwalk <-
 
 # read in nccs data
 
-nccs_data <- read_csv( "xwalk/tinybmf.csv" )
+nccs_data <- read_csv( str_c(path, "tinybmf.csv" ))
 
 nccs_data_sf <- st_as_sf(nccs_data, 
 												 coords = c("Longitude",
