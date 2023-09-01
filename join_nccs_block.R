@@ -8,13 +8,10 @@ library(sf)
 path <- "xwalk/"
 
 
-# get 51 unique state fips 
-# codes (including dc)
-
 #set boolean for whether you want to download block shapefiles
 download_block <- FALSE
 
-# get 51 unique state fips codes (including dc)
+# get unique state fips codes (including dc)
 
 unique_states <- fips_codes %>% 
   filter(state_code != 74) %>%
