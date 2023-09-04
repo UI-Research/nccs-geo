@@ -79,26 +79,5 @@ write.csv( dd, "TEST-BMF-BLOCKS-JOINED.csv" )
 
 
 
-  
-    
-  "FIPS",  "PMSA", "MSA_NECH",  
     
 
-
-
-"RANDNUM",  
-"NTEE1",   "NTMAJ10", "MAJGRPB",  
- "NTMAJ12", "NTMAJ5",  
-
-
-"ZIP7", "ZIP", "f_address", 
- "Status", "Region", "RegionAbbr", 
-"Subregion", "MetroArea", "City", "Nbrhd", "geometry", "Match_type", 
-"LongLabel", "ShortLabel", "Type", "PlaceName", "Place_addr", 
-"Phone", "URL", "Rank", "AddBldg", "AddNum", "AddNumFrom", "AddNumTo", 
-"AddRange", "Side", "StPreDir", "StPreType", "StName", "StType", 
-"StDir", "BldgType", "BldgName", "LevelType", "LevelName", "UnitType", 
-"UnitName", "SubAddr", "StAddr", "Block", "Sector", "District", 
-"Territory", "Zone", "Postal", "PostalExt", "Country", "CntryName", 
-"LangCode", "Distance", "DisplayX", "DisplayY", "Xmin", "Xmax", 
-"Ymin", "Ymax", "ExInfo", "id", )
