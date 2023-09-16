@@ -61,15 +61,15 @@ state_xwalk <-
 
 nccs_data <- read_csv( str_c(path, "tinybmf.csv" ))
 
-nccs_data_sf <- st_as_sf(nccs_data, 
-												 coords = c("Longitude",
-												 					 "Latitude"),
-												 crs = 4326) %>% 
-  select(id, 
-  			 STATE, 
-  			 Longitude, 
-  			 Latitude) %>%
-  st_transform("EPSG:4269")
+nccs_data_sf <- 
+  st_as_sf( nccs_data, 
+    coords = c( "Longitude", "Latitude" ),
+    crs = 4326 ) %>% 
+    select( id, 
+  	    STATE, 
+  	    Longitude, 
+  	    Latitude ) %>%
+    st_transform( "EPSG:4269" )
 
 # if intermediate directory doesn't exist, create it
 if(!dir.exists("intermediate")){
