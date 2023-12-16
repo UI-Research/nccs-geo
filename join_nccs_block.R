@@ -1,6 +1,6 @@
-library(tigris)
-library(tidyverse)
-library(sf)
+library( tigris )
+library( tidyverse )
+library( sf )
 
 # set filepath of where to 
 # save raw block shapefiles
@@ -8,7 +8,11 @@ library(sf)
 path <- "xwalk/"
 
 
-#set boolean for whether you want to download block shapefiles
+#####  
+#####  get shapefiles from tigris 
+#####  
+
+# set boolean for whether you want to download block shapefiles
 download_block <- FALSE
 
 # get unique state fips codes (including dc)
@@ -20,16 +24,16 @@ unique_states <- fips_codes %>%
 
 
 # only run if download_block is TRUE
-if(download_block){
+if( download_block ){
 
 # if shapefiles directory doesn't exist, create it
-if(!dir.exists(path)){
-  dir.create(path)
-}
+if( ! dir.exists(path) )
+{ dir.create(path) }
 
-# download block shapefiles by state
-# abridge to only the geoid variable
-# and save 
+
+#####  download block shapefiles by state
+#####  abridge to only the geoid variable
+#####  and save
 	
 walk(unique_states, function(x) {
   
@@ -39,7 +43,7 @@ walk(unique_states, function(x) {
     st_write(str_c(path, "block_", x, ".geojson")) 
    })
   
-  }
+}  # end if( download_block )
 
 
 # list paths of all 
@@ -57,9 +61,11 @@ state_xwalk <-
   distinct()
 
 
-# read in nccs data
+#####
+#####  read in nccs data
+#####
 
-nccs_data <- read_csv( str_c(path, "tinybmf.csv" ))
+nccs_data <- read_csv( str_c( path, "tinybmf.csv" ) )
 
 nccs_data_sf <- 
   st_as_sf( nccs_data, 
@@ -72,18 +78,18 @@ nccs_data_sf <-
     st_transform( "EPSG:4269" )
 
 # if intermediate directory doesn't exist, create it
-if(!dir.exists("intermediate")){
-  dir.create("intermediate")
-}
+if( !dir.exists("intermediate") )
+{ dir.create("intermediate") }
 
 # if final directory doesn't exist, create it
-if(!dir.exists("final")){
-  dir.create("final")
-}
+if( !dir.exists("final") )
+{ dir.create("final") }
 
 
+#####
+#####  joins nccs data to block data by state
+#####
 
-# joins nccs data to block data by state
 join_nccs <- function(my_state){
   print(my_state)
 
@@ -93,40 +99,50 @@ join_nccs <- function(my_state){
     pull(state)
   
   # keep only nccs data for the state we're joining to minimize memory and time
-  nccs_state <- filter(nccs_data_sf,
-  										 STATE == state_abbv)
+  nccs_state <- 
+    filter( nccs_data_sf,
+  	    STATE == state_abbv)
   
   # read in block geojson
-  state_block <- st_read(str_c(path, 
-  														 "block_",
-  														 my_state,
-  														 ".geojson"))
+  state_block <- 
+	st_read( 
+		str_c( path, 
+  		       "block_",
+  		       my_state,
+  		       ".geojson" ))
   
   # join data and remove the geometry
-  data_out<- st_join(nccs_state, 
-  									 state_block) %>% 
+  data_out <- 
+	st_join( nccs_state, 
+  		 state_block ) %>% 
     st_drop_geometry()
   
   # save the joined data
-  write_csv(data_out, str_c("intermediate/joined_block_", 
-                            my_state, 
-                            ".csv" ))
-  
+
+  filename <- str_c( "intermediate/joined_block_", my_state, ".csv" )
+  write_csv( data_out, filename )
+                           
 }
 
-# iterate through all states and join data
+
+
+#####
+#####  iterate through all states and join data
+#####
+
 walk( unique_states, join_nccs)
 
 # read in all joined data and append together
-full_joined_dat <- list.files("intermediate", 
-															pattern = "joined_block_", 
-															full.names = TRUE) %>% 
-  map_dfr(~read_csv(., 
-  									col_types = list(GEOID10 = col_character())))
+full_joined_dat <- 
+  list.files( "intermediate", 
+	      pattern = "joined_block_", 
+	      full.names = TRUE ) %>% 
+  map_dfr( ~read_csv( ., col_types = list(GEOID10 = col_character()) ))
 
-# joni abridged data with block info back to full dataset and write out
-nccs_dat_full <- left_join(nccs_data,
-													 full_joined_dat, 
-													 by = c("id", "STATE")) %>% 
-  write_csv("final/nccs_test.csv")
+# join abridged data with block info back to full dataset and write out
+nccs_dat_full <- 
+  left_join( nccs_data,
+	    full_joined_dat, 
+            by = c("id", "STATE") ) %>% 
+  write_csv( "final/nccs_test.csv" )
 
