@@ -34,7 +34,7 @@ get_census_data <- function( geo, years=c(1990,2000,2007:2019), format="long" ) 
 
   if( format == "wide" )
   {
-    geoids <- c("geoid","cbsa_code","cbsa_title","metro")
+    geoids <- c("geoid","geoid_2010","cbsa_code","cbsa_title","metro")
     idvars <- geoids[ geoids %in% names(df) ]
     df <- reshape( df, idvar=idvars, timevar="version", direction="wide" )
   }
